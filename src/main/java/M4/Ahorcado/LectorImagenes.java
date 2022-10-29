@@ -32,4 +32,6 @@ public class LectorImagenes {
 		return imageLabel;
 	}
 	
+	
+	
 }

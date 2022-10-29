@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JLabel;
+import java.awt.FlowLayout;
 
 public class Ahorcado extends JFrame {
 
@@ -36,40 +37,39 @@ public class Ahorcado extends JFrame {
 		contentPane.setLayout(null);
 
 		/*----------- JPANELS ------------------------*/
-		
+
 		JPanel panel_opciones = new JPanel();
 		panel_opciones.setBounds(10, 11, 272, 89);
 		panel_opciones.setLayout(new GridLayout(2, 1, 0, 0));
-		
+
 		JPanel panelContainer_vidas = new JPanel();
 		panelContainer_vidas.setBounds(10, 111, 272, 112);
 		panelContainer_vidas.setLayout(new GridLayout(2, 0, 0, 0));
-		
+
 		JPanel panel_vidas = new JPanel();
 		panelContainer_vidas.add(panel_vidas);
-		
+
 		JPanel panel_palabra = new JPanel();
-		panelContainer_vidas.add(panel_vidas);
-		
+		panelContainer_vidas.add(panel_palabra);
+		panel_palabra.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
 		JPanel panel_teclado = new JPanel();
 		panel_teclado.setBounds(10, 234, 272, 176);
 		panel_teclado.setLayout(new GridLayout(6, 6, 0, 0));
-		
+
 		JPanel panel_imagen = new JPanel();
 		panel_imagen.setBounds(292, 11, 274, 399);
 		panel_imagen.setLayout(null);
-		
+
 		/*-----------BOTONES-------------------------------*/
-		JButton btnNewButton_1 = new JButton("Iniciar Juego");
-		panel_opciones.add(btnNewButton_1);
+		JButton comenzarButton = new JButton("Iniciar Juego");
+		panel_opciones.add(comenzarButton);
 
-		JButton btnNewButton = new JButton("Resolver");
-		panel_opciones.add(btnNewButton);
-
+		JButton resolverButton = new JButton("Resolver");
+		panel_opciones.add(resolverButton);
 
 		for (int i = 0; i < arrayTeclado.length; i++) {
-		
-			arrayTeclado[i] = new JButton(String.valueOf(alfa.charAt(i))	);
+			arrayTeclado[i] = new JButton(String.valueOf(alfa.charAt(i)));
 			panel_teclado.add(arrayTeclado[i]);
 			arrayTeclado[i].addActionListener(new ActionListener() {
 
@@ -78,16 +78,33 @@ public class Ahorcado extends JFrame {
 				}
 			});
 		}
-		
+
 		/*------------------JLABELS-----------------------------*/
-		
 		JLabel image_label = lectorImg.getImagenAhorcado(1);
 		image_label.setBounds(0, 0, 274, 399);
 		panel_imagen.add(image_label);
-		
+
 		/*----------RELLENAR DICCIONARIO -------------------*/
+		rellenarDiccionario("facil");
+
+		//Agrego los espacios de letras a adivinar en panel_palabra
+		JLabel[] letras = new JLabel[6];
+		for (int i = 0; i < letras.length; i++) {
+			letras[i] = new JLabel(" _ ");
+			letras[i].setVisible(false);
+			panel_palabra.add(letras[i]);
+		}	
 		
-		diccionario = rellenarDiccionario("facil");
+		/*---------------EVENTOS BOTONES -----------------------*/
+		comenzarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Cuando hago click en "comenzar juego" hago visibles todos los labels
+				for (int i = 0; i < letras.length; i++) {
+					letras[i].setVisible(true);
+				}
+			}
+		});
+		
 
 		/*---------------ADICIONES AL CONTENT PANE------------------*/
 		contentPane.add(panel_opciones);
@@ -97,12 +114,14 @@ public class Ahorcado extends JFrame {
 
 		setVisible(true);
 	}
-	
-	public void rellenarDiccionario (String dificultad){
-		
-		if(dificultad=="facil") {
-			List<String> aux = Arrays.asList("audita", "silvan", "alojar", "bardos", "añejo", "Grecia", "jubilo", "Kosovo", "lanoso", "hundes");
+
+	public void rellenarDiccionario(String dificultad) {
+
+		if (dificultad == "facil") {
+			List<String> aux = Arrays.asList("audita", "silvan", "alojar", "bardos", "añejo", "Grecia", "jubilo",
+					"Kosovo", "lanoso", "hundes");
 			diccionario = new ArrayList<>(aux);
 		}
 	}
+
 }
