@@ -15,8 +15,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.FlowLayout;
 
 public class Ahorcado extends JFrame {
@@ -26,6 +29,8 @@ public class Ahorcado extends JFrame {
 	private String alfa = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
 	private ArrayList<String> diccionario = new ArrayList<>();
 	private LectorImagenes lectorImg = new LectorImagenes();
+	private String palabraOculta;
+	private int contador = 10;
 
 	public Ahorcado() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,7 +79,17 @@ public class Ahorcado extends JFrame {
 			arrayTeclado[i].addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-
+					//obtengo el boton presionado y lo desactivo
+					JButton botonPresionado = (JButton) e.getSource();
+					botonPresionado.setEnabled(false);
+					//compruebo si la letra está en la palabra oculta
+					boolean acerto = palabraOculta.toLowerCase().contains(botonPresionado.getText());
+					//Si acertó, desoculto la palabra
+					if(acerto) {
+						desocultarLetra(botonPresionado.getText());
+					} else {
+						//vidas--
+					}
 				}
 			});
 		}
@@ -102,6 +117,11 @@ public class Ahorcado extends JFrame {
 				for (int i = 0; i < letras.length; i++) {
 					letras[i].setVisible(true);
 				}
+				//Asigno la palabra oculta
+				asignarPalabra();
+				//Desactivo el botón "comenzar juego"
+				JButton jb = (JButton) e.getSource();
+				jb.setEnabled(false);
 			}
 		});
 		
@@ -114,14 +134,37 @@ public class Ahorcado extends JFrame {
 
 		setVisible(true);
 	}
-
-	public void rellenarDiccionario(String dificultad) {
+	
+	private boolean desocultarLetra(String letra) {
+		//No tengo idea como hacerlo, porque no se pueden cambiar ni agregar los componentes que están dentro del frame una vez que se ejecuta el programa
+		//Tal vez podamos hacerlo con cards layouts dentro de panel_palabra (que pueden desaparecer y dar lugar a otras cartas)
+	}
+	
+	private void rellenarDiccionario(String dificultad) {
 
 		if (dificultad == "facil") {
 			List<String> aux = Arrays.asList("audita", "silvan", "alojar", "bardos", "añejo", "Grecia", "jubilo",
 					"Kosovo", "lanoso", "hundes");
 			diccionario = new ArrayList<>(aux);
 		}
+	}
+	
+	private void asignarPalabra() {
+		if(contador>0) {
+			//palabra oculta es un atributo al que se le asigna una palabra random
+			palabraOculta = diccionario.get(getRandom());
+			contador--;
+		} else {
+			//Si contador es 0 el juego se termina
+			JOptionPane.showMessageDialog(contentPane, "Juego terminado");
+		}
+		
+	}
+	
+	public int getRandom () {
+		Random r = new Random();
+		int random = r.nextInt(contador);
+		return random;
 	}
 
 }
