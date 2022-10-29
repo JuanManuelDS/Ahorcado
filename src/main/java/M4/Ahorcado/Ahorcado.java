@@ -28,45 +28,41 @@ public class Ahorcado extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 272, 89);
-		contentPane.add(panel);
-		panel.setLayout(new GridLayout(2, 1, 0, 0));
+		JPanel panel_opciones = new JPanel();
+		panel_opciones.setBounds(10, 11, 272, 89);
+		contentPane.add(panel_opciones);
+		panel_opciones.setLayout(new GridLayout(2, 1, 0, 0));
 
 		JButton btnNewButton_1 = new JButton("Iniciar Juego");
-		panel.add(btnNewButton_1);
+		panel_opciones.add(btnNewButton_1);
 
 		JButton btnNewButton = new JButton("Resolver");
-		panel.add(btnNewButton);
+		panel_opciones.add(btnNewButton);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 111, 272, 112);
-		contentPane.add(panel_1);
-		panel_1.setLayout(new GridLayout(0, 1, 0, 0));
+		JPanel panelContainer_vidas = new JPanel();
+		panelContainer_vidas.setBounds(10, 111, 272, 112);
+		contentPane.add(panelContainer_vidas);
+		panelContainer_vidas.setLayout(new GridLayout(2, 0, 0, 0));
+		
+		JPanel panel_vidas = new JPanel();
+		panelContainer_vidas.add(panel_vidas);
+		
+		JPanel panel_palabra = new JPanel();
+		panelContainer_vidas.add(panel_vidas);
 
-		JPanel panel_4 = new JPanel();
-		panel_1.add(panel_4);
-		panel_4.setLayout(new GridLayout(2, 1, 0, 0));
+		JPanel panel_teclado = new JPanel();
+		panel_teclado.setBounds(10, 234, 272, 176);
+		contentPane.add(panel_teclado);
+		panel_teclado.setLayout(new GridLayout(6, 6, 0, 0));
 
-		JPanel panel_6 = new JPanel();
-		panel_4.add(panel_6);
-
-		JPanel panel_5 = new JPanel();
-		panel_4.add(panel_5);
-
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 234, 272, 176);
-		contentPane.add(panel_2);
-		panel_2.setLayout(new GridLayout(6, 6, 0, 0));
-
-		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(292, 11, 274, 399);
-		contentPane.add(panel_3);
+		JPanel panel_imagen = new JPanel();
+		panel_imagen.setBounds(292, 11, 274, 399);
+		contentPane.add(panel_imagen);
 
 		for (int i = 0; i < arrayTeclado.length; i++) {
 		
 			arrayTeclado[i] = new JButton(String.valueOf(alfa.charAt(i))	);
-			panel_2.add(arrayTeclado[i]);
+			panel_teclado.add(arrayTeclado[i]);
 			arrayTeclado[i].addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {

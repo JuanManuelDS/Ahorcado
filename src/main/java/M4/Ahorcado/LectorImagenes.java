@@ -11,19 +11,24 @@ import javax.swing.JLabel;
 
 public class LectorImagenes {
 	
-	public void algo()
-	{
+	private BufferedImage imagen;
+	
+	public JLabel getImagen(int index) {
+		
+		JLabel imageLabel = null;
+		
 		try {
-			BufferedImage myPicture = ImageIO.read(new File("imagenes\\pug.jpg"));
-			ImageIcon ii = new ImageIcon("imagenes\\pug.jpg");
-			Image i = ii.getImage();
-			Image newI = i.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
-			ii = new ImageIcon(newI);
-			JLabel picLabel = new JLabel(ii);
+			imagen = ImageIO.read(new File("imagenes\\imagen"+ index+".jpg"));
+			ImageIcon imagenIcon = new ImageIcon("imagenes\\imagen"+ index+".jpg");
+			Image aux = imagenIcon.getImage();
+			Image aux2 = aux.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
+			imagenIcon = new ImageIcon(aux2);
+			imageLabel = new JLabel(imagenIcon);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+
+		return imageLabel;
 	}
 	
 }
