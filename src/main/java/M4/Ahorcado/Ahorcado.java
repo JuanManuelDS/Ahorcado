@@ -12,6 +12,10 @@ import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.swing.JLabel;
 
 public class Ahorcado extends JFrame {
@@ -19,6 +23,7 @@ public class Ahorcado extends JFrame {
 	private JPanel contentPane;
 	private JButton[] arrayTeclado = new JButton[27];
 	private String alfa = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+	private ArrayList<String> diccionario = new ArrayList<>();
 	private LectorImagenes lectorImg = new LectorImagenes();
 
 	public Ahorcado() {
@@ -76,9 +81,13 @@ public class Ahorcado extends JFrame {
 		
 		/*------------------JLABELS-----------------------------*/
 		
-		JLabel image_label = lectorImg.getImagen(1);
+		JLabel image_label = lectorImg.getImagenAhorcado(1);
 		image_label.setBounds(0, 0, 274, 399);
 		panel_imagen.add(image_label);
+		
+		/*----------RELLENAR DICCIONARIO -------------------*/
+		
+		diccionario = rellenarDiccionario("facil");
 
 		/*---------------ADICIONES AL CONTENT PANE------------------*/
 		contentPane.add(panel_opciones);
@@ -87,5 +96,13 @@ public class Ahorcado extends JFrame {
 		contentPane.add(panel_imagen);
 
 		setVisible(true);
+	}
+	
+	public void rellenarDiccionario (String dificultad){
+		
+		if(dificultad=="facil") {
+			List<String> aux = Arrays.asList("audita", "silvan", "alojar", "bardos", "añejo", "Grecia", "jubilo", "Kosovo", "lanoso", "hundes");
+			diccionario = new ArrayList<>(aux);
+		}
 	}
 }

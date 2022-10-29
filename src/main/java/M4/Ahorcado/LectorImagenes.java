@@ -11,14 +11,15 @@ import javax.swing.JLabel;
 
 public class LectorImagenes {
 	
-	private BufferedImage imagen;
+	private BufferedImage imagenAhorcado;
+	private BufferedImage imagenVidas;
 	
-	public JLabel getImagen(int index) {
+	public JLabel getImagenAhorcado(int index) {
 		
 		JLabel imageLabel = null;
 		
 		try {
-			imagen = ImageIO.read(new File("imagenes\\imagen"+ index+".jpg"));
+			imagenAhorcado = ImageIO.read(new File("imagenes\\imagen"+ index+".jpg"));
 			ImageIcon imagenIcon = new ImageIcon("imagenes\\imagen"+ index+".jpg");
 			Image aux = imagenIcon.getImage();
 			Image aux2 = aux.getScaledInstance(274, 399, java.awt.Image.SCALE_SMOOTH);
