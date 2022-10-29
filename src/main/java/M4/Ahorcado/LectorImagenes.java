@@ -21,7 +21,7 @@ public class LectorImagenes {
 			imagen = ImageIO.read(new File("imagenes\\imagen"+ index+".jpg"));
 			ImageIcon imagenIcon = new ImageIcon("imagenes\\imagen"+ index+".jpg");
 			Image aux = imagenIcon.getImage();
-			Image aux2 = aux.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
+			Image aux2 = aux.getScaledInstance(274, 399, java.awt.Image.SCALE_SMOOTH);
 			imagenIcon = new ImageIcon(aux2);
 			imageLabel = new JLabel(imagenIcon);
 		} catch (IOException e) {
