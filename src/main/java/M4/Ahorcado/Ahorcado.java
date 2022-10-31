@@ -31,6 +31,7 @@ public class Ahorcado extends JFrame {
 	private LectorImagenes lectorImg = new LectorImagenes();
 	private String palabraOculta;
 	private int contador = 10;
+	JLabel[] letras;
 
 	public Ahorcado() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,10 +84,11 @@ public class Ahorcado extends JFrame {
 					JButton botonPresionado = (JButton) e.getSource();
 					botonPresionado.setEnabled(false);
 					//compruebo si la letra está en la palabra oculta
-					boolean acerto = palabraOculta.toLowerCase().contains(botonPresionado.getText());
+					String letra = botonPresionado.getText().toLowerCase();
+					boolean acerto = comprobarAcierto(letra);
 					//Si acertó, desoculto la palabra
 					if(acerto) {
-						desocultarLetra(botonPresionado.getText());
+						desocultarLetra(letra);
 					} else {
 						//vidas--
 					}
@@ -103,7 +105,7 @@ public class Ahorcado extends JFrame {
 		rellenarDiccionario("facil");
 
 		//Agrego los espacios de letras a adivinar en panel_palabra
-		JLabel[] letras = new JLabel[6];
+		letras = new JLabel[6];
 		for (int i = 0; i < letras.length; i++) {
 			letras[i] = new JLabel(" _ ");
 			letras[i].setVisible(false);
@@ -135,9 +137,26 @@ public class Ahorcado extends JFrame {
 		setVisible(true);
 	}
 	
-	private boolean desocultarLetra(String letra) {
-		//No tengo idea como hacerlo, porque no se pueden cambiar ni agregar los componentes que están dentro del frame una vez que se ejecuta el programa
-		//Tal vez podamos hacerlo con cards layouts dentro de panel_palabra (que pueden desaparecer y dar lugar a otras cartas)
+	private void desocultarLetra(String letra) {
+		//Comparo y busco en minúsculas el/los index de las coincidencias
+		ArrayList<Integer> indices = new ArrayList<>();
+		for(int i =0; i<palabraOculta.length(); i++) {
+			char letraOculta = palabraOculta.toLowerCase().charAt(i);
+			if(letraOculta == letra.charAt(0)) {
+				indices.add(i);
+			}
+		}
+		//Ahora desoculto las letras
+		indices.forEach(ind ->{
+			letras[ind].setText(palabraOculta.substring(ind, ind+1));
+		});
+		
+	}
+	
+	private boolean comprobarAcierto(String letra) {
+		if(palabraOculta.toLowerCase().contains(letra)) {
+			return true;
+		} else return false;
 	}
 	
 	private void rellenarDiccionario(String dificultad) {
@@ -154,6 +173,7 @@ public class Ahorcado extends JFrame {
 			//palabra oculta es un atributo al que se le asigna una palabra random
 			palabraOculta = diccionario.get(getRandom());
 			contador--;
+			System.out.println(palabraOculta);
 		} else {
 			//Si contador es 0 el juego se termina
 			JOptionPane.showMessageDialog(contentPane, "Juego terminado");
