@@ -1,5 +1,6 @@
 package M4.Ahorcado;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 
@@ -34,7 +35,6 @@ public class Ahorcado extends JFrame {
 	private JLabel[] letras;
 	private int indexImagenes = 1;
 	private JLabel[] image_labels = new JLabel[7];
-	
 
 	public Ahorcado() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,14 +68,19 @@ public class Ahorcado extends JFrame {
 
 		JPanel panel_imagen = new JPanel();
 		panel_imagen.setBounds(292, 11, 274, 399);
-		panel_imagen.setLayout(null);
-		
+		panel_imagen.setLayout(new CardLayout());
+
 		/*------------------JLABELS-----------------------------*/
-		for(int i = 0; i<image_labels.length; i++) {
-			image_labels[i] = lectorImg.getImagenAhorcado(i+1);
+		for (int i = 0; i < image_labels.length; i++) {
+			image_labels[i] = lectorImg.getImagenAhorcado(i + 1);
 			image_labels[i].setBounds(0, 0, 274, 399);
 		}
-		panel_imagen.add(image_labels[0]);
+
+		/*------------------IMAGENES-----------------------------*/
+
+		for (int i = 0; i < image_labels.length; i++) {
+			panel_imagen.add(image_labels[i]);
+		}
 
 		/*-----------BOTONES-------------------------------*/
 		JButton comenzarButton = new JButton("Iniciar Juego");
@@ -90,58 +95,54 @@ public class Ahorcado extends JFrame {
 			arrayTeclado[i].addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					//obtengo el boton presionado y lo desactivo
+					// obtengo el boton presionado y lo desactivo
 					JButton botonPresionado = (JButton) e.getSource();
 					botonPresionado.setEnabled(false);
-					//compruebo si la letra está en la palabra oculta
+					// compruebo si la letra está en la palabra oculta
 					String letra = botonPresionado.getText().toLowerCase();
 					boolean acerto = comprobarAcierto(letra);
-					//Si acertó, desoculto la palabra
-					if(acerto) {
+					// Si acertó, desoculto la palabra
+					if (acerto) {
 						desocultarLetra(letra);
 					} else {
-						if(indexImagenes>6) {
+						if (indexImagenes > 6) {
 							JOptionPane.showMessageDialog(contentPane, "Perdiste campeon! ");
 						} else {
-							//Por algún motivo no actualiza la imagen, si bien llama al método y la actualiza, el label no se actualiza
+							// Se pasa a la siguiente imagen en el momento que se falla una letra
+							nextImagen(panel_imagen);
 							indexImagenes++;
-							panel_imagen.removeAll();
-							panel_imagen.add(image_labels[indexImagenes]);
 						}
-						
+
 					}
 				}
 			});
 		}
 
-		
-
 		/*----------RELLENAR DICCIONARIO -------------------*/
 		rellenarDiccionario("facil");
 
-		//Agrego los espacios de letras a adivinar en panel_palabra
+		// Agrego los espacios de letras a adivinar en panel_palabra
 		letras = new JLabel[6];
 		for (int i = 0; i < letras.length; i++) {
 			letras[i] = new JLabel(" _ ");
 			letras[i].setVisible(false);
 			panel_palabra.add(letras[i]);
-		}	
-		
+		}
+
 		/*---------------EVENTOS BOTONES -----------------------*/
 		comenzarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Cuando hago click en "comenzar juego" hago visibles todos los labels
+				// Cuando hago click en "comenzar juego" hago visibles todos los labels
 				for (int i = 0; i < letras.length; i++) {
 					letras[i].setVisible(true);
 				}
-				//Asigno la palabra oculta
+				// Asigno la palabra oculta
 				asignarPalabra();
-				//Desactivo el botón "comenzar juego"
+				// Desactivo el botón "comenzar juego"
 				JButton jb = (JButton) e.getSource();
 				jb.setEnabled(false);
 			}
 		});
-		
 
 		/*---------------ADICIONES AL CONTENT PANE------------------*/
 		contentPane.add(panel_opciones);
@@ -151,29 +152,30 @@ public class Ahorcado extends JFrame {
 
 		setVisible(true);
 	}
-	
+
 	private void desocultarLetra(String letra) {
-		//Comparo y busco en minúsculas el/los index de las coincidencias
+		// Comparo y busco en minúsculas el/los index de las coincidencias
 		ArrayList<Integer> indices = new ArrayList<>();
-		for(int i =0; i<palabraOculta.length(); i++) {
+		for (int i = 0; i < palabraOculta.length(); i++) {
 			char letraOculta = palabraOculta.toLowerCase().charAt(i);
-			if(letraOculta == letra.charAt(0)) {
+			if (letraOculta == letra.charAt(0)) {
 				indices.add(i);
 			}
 		}
-		//Ahora desoculto las letras
-		indices.forEach(ind ->{
-			letras[ind].setText(palabraOculta.substring(ind, ind+1));
+		// Ahora desoculto las letras
+		indices.forEach(ind -> {
+			letras[ind].setText(palabraOculta.substring(ind, ind + 1));
 		});
-		
+
 	}
-	
+
 	private boolean comprobarAcierto(String letra) {
-		if(palabraOculta.toLowerCase().contains(letra)) {
+		if (palabraOculta.toLowerCase().contains(letra)) {
 			return true;
-		} else return false;
+		} else
+			return false;
 	}
-	
+
 	private void rellenarDiccionario(String dificultad) {
 
 		if (dificultad == "facil") {
@@ -182,24 +184,54 @@ public class Ahorcado extends JFrame {
 			diccionario = new ArrayList<>(aux);
 		}
 	}
-	
+
 	private void asignarPalabra() {
-		if(contador>0) {
-			//palabra oculta es un atributo al que se le asigna una palabra random
+		if (contador > 0) {
+			// palabra oculta es un atributo al que se le asigna una palabra random
 			palabraOculta = diccionario.get(getRandom());
 			contador--;
 			System.out.println(palabraOculta);
 		} else {
-			//Si contador es 0 el juego se termina
+			// Si contador es 0 el juego se termina
 			JOptionPane.showMessageDialog(contentPane, "Juego terminado");
 		}
-		
+
 	}
-	
-	public int getRandom () {
+
+	public int getRandom() {
 		Random r = new Random();
 		int random = r.nextInt(contador);
 		return random;
+	}
+	
+	// Declaramos el jpanel_imagen y usamos el metodo .next() del CardLayout
+	private void nextImagen(JPanel container) {
+		CardLayout cl = (CardLayout) container.getLayout();
+		
+		switch (indexImagenes) {
+		case 1:
+			cl.next(container);
+			break;
+		case 2:
+			cl.next(container);
+			break;
+		case 3:
+			cl.next(container);
+			break;
+		case 4:
+			cl.next(container);
+			break;
+		case 5:
+			cl.next(container);
+			break;
+		case 6:
+			cl.next(container);
+			break;
+
+		default:
+			break;
+		}
+
 	}
 
 }
