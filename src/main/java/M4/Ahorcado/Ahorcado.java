@@ -33,7 +33,7 @@ public class Ahorcado extends JFrame {
 	private int contador = 10;
 	private JLabel[] letras;
 	private int indexImagenes = 1;
-	private JLabel image_label;
+	private JLabel[] image_labels = new JLabel[7];
 	
 
 	public Ahorcado() {
@@ -71,9 +71,11 @@ public class Ahorcado extends JFrame {
 		panel_imagen.setLayout(null);
 		
 		/*------------------JLABELS-----------------------------*/
-		image_label = lectorImg.getImagenAhorcado(indexImagenes);
-		image_label.setBounds(0, 0, 274, 399);
-		panel_imagen.add(image_label);
+		for(int i = 0; i<image_labels.length; i++) {
+			image_labels[i] = lectorImg.getImagenAhorcado(i+1);
+			image_labels[i].setBounds(0, 0, 274, 399);
+		}
+		panel_imagen.add(image_labels[0]);
 
 		/*-----------BOTONES-------------------------------*/
 		JButton comenzarButton = new JButton("Iniciar Juego");
@@ -103,7 +105,8 @@ public class Ahorcado extends JFrame {
 						} else {
 							//Por algún motivo no actualiza la imagen, si bien llama al método y la actualiza, el label no se actualiza
 							indexImagenes++;
-							image_label = lectorImg.getImagenAhorcado(indexImagenes);
+							panel_imagen.removeAll();
+							panel_imagen.add(image_labels[indexImagenes]);
 						}
 						
 					}
