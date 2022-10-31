@@ -31,7 +31,10 @@ public class Ahorcado extends JFrame {
 	private LectorImagenes lectorImg = new LectorImagenes();
 	private String palabraOculta;
 	private int contador = 10;
-	JLabel[] letras;
+	private JLabel[] letras;
+	private int indexImagenes = 1;
+	private JLabel image_label;
+	
 
 	public Ahorcado() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,6 +69,11 @@ public class Ahorcado extends JFrame {
 		JPanel panel_imagen = new JPanel();
 		panel_imagen.setBounds(292, 11, 274, 399);
 		panel_imagen.setLayout(null);
+		
+		/*------------------JLABELS-----------------------------*/
+		image_label = lectorImg.getImagenAhorcado(indexImagenes);
+		image_label.setBounds(0, 0, 274, 399);
+		panel_imagen.add(image_label);
 
 		/*-----------BOTONES-------------------------------*/
 		JButton comenzarButton = new JButton("Iniciar Juego");
@@ -90,16 +98,20 @@ public class Ahorcado extends JFrame {
 					if(acerto) {
 						desocultarLetra(letra);
 					} else {
-						//vidas--
+						if(indexImagenes>6) {
+							JOptionPane.showMessageDialog(contentPane, "Perdiste campeon! ");
+						} else {
+							//Por algún motivo no actualiza la imagen, si bien llama al método y la actualiza, el label no se actualiza
+							indexImagenes++;
+							image_label = lectorImg.getImagenAhorcado(indexImagenes);
+						}
+						
 					}
 				}
 			});
 		}
 
-		/*------------------JLABELS-----------------------------*/
-		JLabel image_label = lectorImg.getImagenAhorcado(1);
-		image_label.setBounds(0, 0, 274, 399);
-		panel_imagen.add(image_label);
+		
 
 		/*----------RELLENAR DICCIONARIO -------------------*/
 		rellenarDiccionario("facil");
