@@ -40,7 +40,7 @@ public class LectorImagenes {
 			imagenAhorcado = ImageIO.read(new File("imagenes\\vidas.png"));
 			ImageIcon imagenIcon = new ImageIcon("imagenes\\vidas.png");
 			Image aux = imagenIcon.getImage();
-			Image aux2 = aux.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+			Image aux2 = aux.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
 			imagenIcon = new ImageIcon(aux2);
 			imageLabel = new JLabel(imagenIcon);
 		} catch (IOException e) {
