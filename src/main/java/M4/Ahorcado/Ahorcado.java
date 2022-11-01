@@ -103,11 +103,11 @@ public class Ahorcado extends JFrame {
 			panel_imagen.add(image_labels[i]);
 		}
 
-		/*-----------BOTONES-------------------------------*/
+		/*-----------BOTÓN INICIAR JUEGO------------------------------*/
 		JButton comenzarButton = new JButton("Iniciar Juego");
 		panel_opciones.add(comenzarButton);
 
-		/*----------BOTÓN RESOLVER EVENTO ----------------------*/
+		/*----------BOTÓN RESOLVER ----------------------*/
 		JButton resolverButton = new JButton("Resolver");
 		resolverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -124,11 +124,11 @@ public class Ahorcado extends JFrame {
 			}
 		});
 		panel_opciones.add(resolverButton);
-
+		
+		//Agrego los botones que forman el teclado al panel_teclado y les agrego el event listener
 		for (int i = 0; i < arrayTeclado.length; i++) {
 			panel_teclado.add(arrayTeclado[i]);
 			arrayTeclado[i].addActionListener(new ActionListener() {
-
 				public void actionPerformed(ActionEvent e) {
 					eventoTeclado(e, panel_imagen);
 				}
@@ -220,12 +220,14 @@ public class Ahorcado extends JFrame {
 		int random = r.nextInt(contador);
 		return random;
 	}
-
+	
+	//Método manejador de los paneles que contienen las imágenes de vidas, para quitarlas 
 	private void quitarVida(JPanel container) {
 		CardLayout cl = (CardLayout) container.getLayout();
 		cl.next(container);
 	}
 	
+	//Comprueba si la letra presionada se encuentra en la palabra oculta, si está la desoculta y sino cambia la imagen del ahorcado
 	private void eventoTeclado(ActionEvent e, JPanel panel_imagen) {
 		// obtengo el boton presionado y lo desactivo
 		JButton botonPresionado = (JButton) e.getSource();
