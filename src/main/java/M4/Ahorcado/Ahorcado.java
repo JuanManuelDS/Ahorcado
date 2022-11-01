@@ -54,7 +54,7 @@ public class Ahorcado extends JFrame {
 		
 		//---------- CREACIÓN DE COMPONENTES ------------------
 		CreadorComponentes cc = new CreadorComponentes();
-		//Teclado
+		//Creo teclado y lo inserto
 		arrayTeclado = cc.getTeclado();
 		//Labels con imágenes ahorcado
 		image_labels = cc.getImagenesAhorcado();
@@ -130,25 +130,7 @@ public class Ahorcado extends JFrame {
 			arrayTeclado[i].addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					// obtengo el boton presionado y lo desactivo
-					JButton botonPresionado = (JButton) e.getSource();
-					botonPresionado.setEnabled(false);
-					// compruebo si la letra está en la palabra oculta
-					String letra = botonPresionado.getText().toLowerCase();
-					boolean acerto = comprobarAcierto(letra);
-					// Si acertó, desoculto la palabra
-					if (acerto) {
-						desocultarLetra(letra);
-					} else {
-						if (indexImagenes > 6) {
-							JOptionPane.showMessageDialog(contentPane, "Perdiste campeon! ");
-						} else {
-							// Se pasa a la siguiente imagen en el momento que se falla una letra
-							nextImagen(panel_imagen);
-							indexImagenes++;
-						}
-
-					}
+					eventoTeclado(e, panel_imagen);
 				}
 			});
 		}
@@ -242,6 +224,28 @@ public class Ahorcado extends JFrame {
 	private void quitarVida(JPanel container) {
 		CardLayout cl = (CardLayout) container.getLayout();
 		cl.next(container);
+	}
+	
+	private void eventoTeclado(ActionEvent e, JPanel panel_imagen) {
+		// obtengo el boton presionado y lo desactivo
+		JButton botonPresionado = (JButton) e.getSource();
+		botonPresionado.setEnabled(false);
+		// compruebo si la letra está en la palabra oculta
+		String letra = botonPresionado.getText().toLowerCase();
+		boolean acerto = comprobarAcierto(letra);
+		// Si acertó, desoculto la palabra
+		if (acerto) {
+			desocultarLetra(letra);
+		} else {
+			if (indexImagenes > 6) {
+				JOptionPane.showMessageDialog(contentPane, "Perdiste campeon! ");
+			} else {
+				// Se pasa a la siguiente imagen en el momento que se falla una letra
+				nextImagen(panel_imagen);
+				indexImagenes++;
+			}
+
+		}
 	}
 
 	// Declaramos el jpanel_imagen y usamos el metodo .next() del CardLayout
