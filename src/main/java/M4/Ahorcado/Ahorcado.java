@@ -35,6 +35,7 @@ public class Ahorcado extends JFrame {
 	private JLabel[] letras;
 	private int indexImagenes = 1;
 	private JLabel[] image_labels = new JLabel[7];
+	private JLabel[] vidas = new JLabel[5];
 
 	public Ahorcado() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,17 +72,27 @@ public class Ahorcado extends JFrame {
 		panel_imagen.setLayout(new CardLayout());
 
 		/*------------------JLABELS-----------------------------*/
+		//creo labels con imágenes ahorcado
 		for (int i = 0; i < image_labels.length; i++) {
 			image_labels[i] = lectorImg.getImagenAhorcado(i + 1);
 			image_labels[i].setBounds(0, 0, 274, 399);
 		}
+		
+		//creo labels con imágenes vidas
+		for(int i = 0; i<vidas.length;i++) {
+			vidas[i] = lectorImg.getImagenVida();
+		}
 
 		/*------------------IMAGENES-----------------------------*/
-
+		//Imágenes ahorcado
 		for (int i = 0; i < image_labels.length; i++) {
 			panel_imagen.add(image_labels[i]);
 		}
-
+		
+		//Imágenes vidas
+		for(int i = 0; i<vidas.length;i++) {
+			panel_vidas.add(vidas[i]);
+		}
 		/*-----------BOTONES-------------------------------*/
 		JButton comenzarButton = new JButton("Iniciar Juego");
 		panel_opciones.add(comenzarButton);
