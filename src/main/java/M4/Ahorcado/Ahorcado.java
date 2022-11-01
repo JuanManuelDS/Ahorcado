@@ -91,6 +91,7 @@ public class Ahorcado extends JFrame {
 
 		for (int i = 0; i < arrayTeclado.length; i++) {
 			arrayTeclado[i] = new JButton(String.valueOf(alfa.charAt(i)));
+			arrayTeclado[i].setEnabled(false);
 			panel_teclado.add(arrayTeclado[i]);
 			arrayTeclado[i].addActionListener(new ActionListener() {
 
@@ -135,6 +136,9 @@ public class Ahorcado extends JFrame {
 				// Cuando hago click en "comenzar juego" hago visibles todos los labels
 				for (int i = 0; i < letras.length; i++) {
 					letras[i].setVisible(true);
+				}
+				for(int i=0; i<arrayTeclado.length;i++) {
+					arrayTeclado[i].setEnabled(true);
 				}
 				// Asigno la palabra oculta
 				asignarPalabra();
