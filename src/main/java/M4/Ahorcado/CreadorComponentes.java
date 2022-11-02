@@ -2,6 +2,8 @@ package M4.Ahorcado;
 
 import java.awt.CardLayout;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -59,6 +61,34 @@ public class CreadorComponentes{
 			guiones[i].setVisible(false);
 		}
 		return guiones;
+	}
+	
+	public JPanel getPanels(String panel) {
+		JPanel aux = new JPanel();
+		switch(panel) {
+		case "opciones":
+			aux.setBounds(10, 11, 272, 89);
+			aux.setLayout(new GridLayout(3, 1, 0, 0));
+			break;
+		case "container_vidas":
+			aux.setBounds(10, 111, 272, 112);
+			aux.setLayout(new GridLayout(2, 0, 0, 0));
+			break;
+		case "vidas":
+			aux.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			break;
+		case "palabra":
+			aux.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			break;
+		case "teclado":
+			aux.setBounds(10, 234, 272, 176);
+			aux.setLayout(new GridLayout(6, 6, 0, 0));
+			break;
+		case "imagenes":
+			aux.setBounds(292, 11, 274, 399);
+			aux.setLayout(new CardLayout());
+		}
+		return aux;
 	}
 
 }
