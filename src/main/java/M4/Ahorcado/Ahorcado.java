@@ -235,7 +235,7 @@ public class Ahorcado extends JFrame {
 		JMenuItem Nuevo_juego = new JMenuItem("Nuevo juego");
 		Nuevo_juego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				finalizarJuego(paneles_vidas, panel_imagen, comenzarButton, arrayTeclado, pistaButton, resolverButton);
+				finalizarJuego(panel_imagen, comenzarButton, pistaButton, resolverButton);
 			}
 		});
 		Archivo.add(Nuevo_juego);
@@ -339,8 +339,7 @@ public class Ahorcado extends JFrame {
 
 	}
 
-	private void finalizarJuego(JPanel[] paneles_vidas, JPanel panel_imagenes, JButton comenzarButton,
-			JButton[] arrayTeclado) {
+	private void finalizarJuego(JPanel panel_imagenes, JButton comenzarButton, JButton pistaButton, JButton resolverButton) {
 		// Vuevlo a poner todas las vidas
 		contadorVidas = 4;
 		for (int i = 0; i < paneles_vidas.length; i++) {
