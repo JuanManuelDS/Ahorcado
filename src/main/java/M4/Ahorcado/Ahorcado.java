@@ -33,23 +33,23 @@ public class Ahorcado extends JFrame {
 	private JPanel contentPane;
 	private JPanel[] paneles_vidas;
 	private JPanel panel_imagenes;
-	
+
 	private JLabel[] letras;
 	private JLabel[] image_labels;
 	private JLabel[] vidas;
-	
+
 	private JButton[] arrayTeclado;
 	private JButton juegoButton;
 	private JButton resButton;
 	private JButton pisButton;
-	
+
 	private ArrayList<String> diccionario = new ArrayList<>();
 	private LectorImagenes lectorImg = new LectorImagenes();
-	
+
 	private String palabraOculta;
-	
-	private int contador = 10;
-	private int indexImagenes = 1;
+
+	private int contadorPalabras = 10;
+	private int intentos = 1;
 	private int contadorVidas = 4;
 
 	public Ahorcado() {
@@ -60,7 +60,7 @@ public class Ahorcado extends JFrame {
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
+
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
@@ -143,41 +143,41 @@ public class Ahorcado extends JFrame {
 		pistaButton.setEnabled(false);
 		pistaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Desactivamos el botón (una vez por palabra)
-				pistaButton.setEnabled(false);
+
 				Object[] options = { "Si", "No" };
 				int n = JOptionPane.showOptionDialog(null, "Quieres gastar una vida?", null, JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 
 				if (n == 0) {
+					// Desactivamos el botón (una vez por palabra)
+					pistaButton.setEnabled(false);
 					// Intento quitar una imagen de vida cada vez que se presiona el botón
 					if (contadorVidas >= 0) {
 						nextImagen(paneles_vidas[contadorVidas]);
 						contadorVidas--;
 						for (int i = 0; i < palabraOculta.length(); i++) {
 							if (letras[i].getText() == " _ ") {
-								desocultarLetra(palabraOculta.charAt(i) + "");
+								desocultarLetra((palabraOculta.charAt(i) + "").toLowerCase());
 								break;
 							}
 						}
 
 					}
-					
-					if(comprobarPalabra()) {
-						siguientePalabra();
-					}
-					
-					if (contadorVidas == 0) {
-						// Desactivo el botón de ayuda si el jugador se queda sin vidas
-						pistaButton.setEnabled(false);
-					}
 
+					if (comprobarPalabra()) {
+						siguientePalabra(true);
+					}
+				}
+
+				if (contadorVidas == 0) {
+					// Desactivo el botón de ayuda si el jugador se queda sin vidas
+					pistaButton.setEnabled(false);
 				}
 			}
 		});
 		panel_opciones.add(pistaButton);
 		pisButton = pistaButton;
-		
+
 		/*----------BOTÓN RESOLVER ----------------------*/
 		JButton resolverButton = new JButton("Resolver");
 		resolverButton.setEnabled(false);
@@ -185,31 +185,31 @@ public class Ahorcado extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// Desactivamos el botón (una vez por partida)
 				resolverButton.setEnabled(false);
-				//Me fijo si tiene las vidas suficientes
-				if(contadorVidas>1) {
-					//Desoculto todas las letras
-					for(int i = 0; i<palabraOculta.length(); i++) {
-						if(letras[i].getText() == " _ ") {
+				// Me fijo si tiene las vidas suficientes
+				if (contadorVidas > 1) {
+					// Desoculto todas las letras
+					for (int i = 0; i < palabraOculta.length(); i++) {
+						if (letras[i].getText() == " _ ") {
 							desocultarLetra(Character.toString(palabraOculta.charAt(i)).toLowerCase());
 						}
 					}
-					//Le resto 2 vidas
+					// Le resto 2 vidas
 					nextImagen(paneles_vidas[contadorVidas]);
 					contadorVidas--;
 					nextImagen(paneles_vidas[contadorVidas]);
 					contadorVidas--;
-					siguientePalabra();
+					siguientePalabra(true);
 				} else {
-					//Necesita 3 vidas o más porque sino pierde
-					JOptionPane.showMessageDialog(contentPane, "Necesitas tener mínimamente 3 vidas para poder resolver la palabra");
+					// Necesita 3 vidas o más porque sino pierde
+					JOptionPane.showMessageDialog(contentPane,
+							"Necesitas tener mínimamente 3 vidas para poder resolver la palabra");
 				}
-				
-				
+
 			}
 		});
 		panel_opciones.add(resolverButton);
 		resButton = resolverButton;
-		
+
 		/*---------------EVENTOS BOTONES -----------------------*/
 		comenzarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -237,7 +237,7 @@ public class Ahorcado extends JFrame {
 		contentPane.add(panel_teclado);
 		contentPane.add(panel_imagenes);
 
-		// Crear el menú horizontal 
+		// Crear el menú horizontal
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
@@ -260,14 +260,15 @@ public class Ahorcado extends JFrame {
 		});
 		Archivo.add(Nuevo_juego);
 
-		/*Agregar menú ayuda*/
+		/* Agregar menú ayuda */
 		JMenu Ayuda = new JMenu("Ayuda");
 		menuBar.add(Ayuda);
 
 		JMenuItem Como_jugar = new JMenuItem("Como jugar");
 		Como_jugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(contentPane, "Bienvenido al juego del ahorcado!\nElige las letras necesarias para adivinar la palabra secreta\nTienes 5 vidas");
+				JOptionPane.showMessageDialog(contentPane,
+						"Bienvenido al juego del ahorcado!\nElige las letras necesarias para adivinar la palabra secreta\nTienes 5 vidas");
 			}
 		});
 		Ayuda.add(Como_jugar);
@@ -279,10 +280,10 @@ public class Ahorcado extends JFrame {
 			}
 		});
 		Ayuda.add(Acerca_de);
-		
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
+
 		setVisible(true);
 	}
 
@@ -319,17 +320,16 @@ public class Ahorcado extends JFrame {
 	}
 
 	private void asignarPalabra() {
-		if (contador > 0) {
+		if (contadorPalabras > 0) {
 			// palabra oculta es un atributo al que se le asigna una palabra random
-			int r = getRandom(contador);
+			int r = getRandom(contadorPalabras);
 			palabraOculta = diccionario.get(r);
 			diccionario.remove(r);
-			contador--;
+			contadorPalabras--;
 			System.out.println(palabraOculta);
 		} else {
 			// Si contador es 0 el juego se termina
 			JOptionPane.showMessageDialog(contentPane, "Juego terminado, ganaste!");
-			siguientePalabra();
 		}
 
 	}
@@ -352,22 +352,23 @@ public class Ahorcado extends JFrame {
 		// Si acertó, desoculto la palabra
 		if (acerto) {
 			desocultarLetra(letra);
-			if(comprobarPalabra()) {
-				siguientePalabra();
+			if (comprobarPalabra()) {
+				siguientePalabra(true);
 			}
 		} else {
-			if (indexImagenes > 10) {
+			if (intentos > 10) {
 				nextImagen(panel_imagen);
 				nextImagen(paneles_vidas[contadorVidas]);
 				contadorVidas--;
 				for (int i = 0; i < arrayTeclado.length; i++) {
 					arrayTeclado[i].setEnabled(false);
 				}
-				JOptionPane.showMessageDialog(contentPane, "Perdiste campeon! ");
+				resButton.setEnabled(false);
+				siguientePalabra(false);
 			} else {
 				// Se pasa a la siguiente imagen en el momento que se falla una letra
 				nextImagen(panel_imagen);
-				indexImagenes++;
+				intentos++;
 			}
 		}
 	}
@@ -386,7 +387,7 @@ public class Ahorcado extends JFrame {
 			firstImage(paneles_vidas[i]);
 		}
 		// Reinicio el contador de intentos
-		indexImagenes = 1;
+		intentos = 1;
 		firstImage(panel_imagenes);
 
 		// Vuelvo a habilitar el botón comenzar juego
@@ -410,7 +411,7 @@ public class Ahorcado extends JFrame {
 
 	private boolean comprobarPalabra() {
 		boolean pc = true;
-		
+
 		// Se recorre la palabra oculta
 		for (int i = 0; i < letras.length; i++) {
 			// Si aún queda alguna letra por descubrir, devuelve false
@@ -420,41 +421,46 @@ public class Ahorcado extends JFrame {
 		}
 		return pc;
 	}
-	
-	private void siguientePalabra() {
+
+	private void siguientePalabra(boolean gano) {
+
 		// Desactivamos los botones del teclado
 		for (int i = 0; i < arrayTeclado.length; i++) {
 			arrayTeclado[i].setEnabled(false);
 		}
 		// Desactivamos el botón de Pista
 		pisButton.setEnabled(false);
-		
+
 		// Seleccionamos el Layout de las imagenes
 		CardLayout cl = (CardLayout) panel_imagenes.getLayout();
 		
-		// Mostramos la imagen de victoria
-		cl.last(panel_imagenes);
-		
+		if (gano) {
+			// Mostramos la imagen de victoria
+			cl.last(panel_imagenes);
+		}
+
 		new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-            	// Reiniciamos los labels de la palabra a guiones
-            	for (int i = 0; i < letras.length; i++) {
-        			letras[i].setText(" _ ");
-        		}
-        		// Reactivo todo el teclado
-        		for (int i = 0; i < arrayTeclado.length; i++) {
-        			arrayTeclado[i].setEnabled(true);
-        		}
-        		// Se reactiva el botón de Pista en caso que fuera usado
-        		pisButton.setEnabled(true);
-        		
-        		// Se asigna una nueva palabra
-        		asignarPalabra();
-        		// Se reinicia el contador de imagenes
-        		cl.first(panel_imagenes);
-            }
-        }, 2000);
+			@Override
+			public void run() {
+				// Reiniciamos los labels de la palabra a guiones
+				for (int i = 0; i < letras.length; i++) {
+					letras[i].setText(" _ ");
+				}
+				// Reactivo todo el teclado
+				for (int i = 0; i < arrayTeclado.length; i++) {
+					arrayTeclado[i].setEnabled(true);
+				}
+				// Se reactiva el botón de Pista en caso que fuera usado
+				pisButton.setEnabled(true);
+
+				// Se asigna una nueva palabra
+				asignarPalabra();
+				// Reinicio los intentos
+				intentos = 1;
+				// Se reinicia el contador de imagenes
+				cl.first(panel_imagenes);
+			}
+		}, 1300);
 	}
-	
+
 }
