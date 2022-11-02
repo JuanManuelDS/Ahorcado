@@ -312,7 +312,7 @@ public class Ahorcado extends JFrame {
 	private void rellenarDiccionario(String dificultad) {
 
 		if (dificultad == "facil") {
-			List<String> aux = Arrays.asList("audita", "silvan", "alojar", "bardos", "añejo", "Grecia", "jubilo",
+			List<String> aux = Arrays.asList("audita", "silvan", "alojar", "bardos", "añejos", "Grecia", "jubilo",
 					"Kosovo", "lanoso", "hundes");
 			diccionario = new ArrayList<>(aux);
 		}
@@ -410,8 +410,10 @@ public class Ahorcado extends JFrame {
 
 	private boolean comprobarPalabra() {
 		boolean pc = true;
-
+		
+		// Se recorre la palabra oculta
 		for (int i = 0; i < letras.length; i++) {
+			// Si aún queda alguna letra por descubrir, devuelve false
 			if (letras[i].getText() == " _ ") {
 				pc = false;
 			}
@@ -420,25 +422,36 @@ public class Ahorcado extends JFrame {
 	}
 	
 	private void siguientePalabra() {
+		// Desactivamos los botones del teclado
 		for (int i = 0; i < arrayTeclado.length; i++) {
 			arrayTeclado[i].setEnabled(false);
 		}
+		// Desactivamos el botón de Pista
 		pisButton.setEnabled(false);
+		
+		// Seleccionamos el Layout de las imagenes
 		CardLayout cl = (CardLayout) panel_imagenes.getLayout();
+		
+		// Mostramos la imagen de victoria
 		cl.last(panel_imagenes);
 		
 		new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-            	for (int i = 0; i < letras.length; i++) {// Reiniciamos los labels de la palabra a guiones
+            	// Reiniciamos los labels de la palabra a guiones
+            	for (int i = 0; i < letras.length; i++) {
         			letras[i].setText(" _ ");
         		}
-        		//reactivo todo el teclado
+        		// Reactivo todo el teclado
         		for (int i = 0; i < arrayTeclado.length; i++) {
         			arrayTeclado[i].setEnabled(true);
         		}
+        		// Se reactiva el botón de Pista en caso que fuera usado
         		pisButton.setEnabled(true);
+        		
+        		// Se asigna una nueva palabra
         		asignarPalabra();
+        		// Se reinicia el contador de imagenes
         		cl.first(panel_imagenes);
             }
         }, 2000);
