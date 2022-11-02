@@ -106,24 +106,6 @@ public class Ahorcado extends JFrame {
 		/*-----------BOTÓN INICIAR JUEGO------------------------------*/
 		JButton comenzarButton = new JButton("Iniciar Juego");
 		panel_opciones.add(comenzarButton);
-
-		/*----------BOTÓN RESOLVER ----------------------*/
-		JButton resolverButton = new JButton("Resolver");
-		resolverButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Intento quitar una imagen de vida cada vez que se presiona el botón
-				if (contadorVidas >= 0) {
-					nextImagen(paneles_vidas[contadorVidas]);
-					contadorVidas--;
-				}
-				if (contadorVidas == 0) {
-					// Desactivo el botón de ayuda si el jugador se queda sin vidas
-					resolverButton.setEnabled(false);
-				}
-
-			}
-		});
-		panel_opciones.add(resolverButton);
 		
 		//Agrego los botones que forman el teclado al panel_teclado y les agrego el event listener
 		for (int i = 0; i < arrayTeclado.length; i++) {
@@ -142,10 +124,34 @@ public class Ahorcado extends JFrame {
 		for (int i = 0; i < letras.length; i++) {
 			panel_palabra.add(letras[i]);
 		}
+		/*----------BOTÓN RESOLVER ----------------------*/
+		JButton resolverButton = new JButton("Resolver");
+		asignarPalabra(); // Asigno la palabra oculta
+		resolverButton.setEnabled(false);
+		resolverButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Intento quitar una imagen de vida cada vez que se presiona el botón
+				if (contadorVidas >= 0) {
+					quitarVida(paneles_vidas[contadorVidas]);
+					contadorVidas--;
+					// Un for pasandole cada letra de la palabraOculta a desocultarletra
+					for (int i = 0; i < palabraOculta.length(); i++) {
+						desocultarLetra(Character.toString(palabraOculta.charAt(i)));
+					}
+				}
+				if (contadorVidas == 0) {
+					// Desactivo el botón de ayuda si el jugador se queda sin vidas
+					resolverButton.setEnabled(false);
+				}
 
+			}
+		});
+		panel_opciones.add(resolverButton);
 		/*---------------EVENTOS BOTONES -----------------------*/
 		comenzarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Activamos el boton para resolver la palabra
+				resolverButton.setEnabled(true);
 				// Cuando hago click en "comenzar juego" hago visibles todos los labels
 				for (int i = 0; i < letras.length; i++) {
 					letras[i].setVisible(true);
