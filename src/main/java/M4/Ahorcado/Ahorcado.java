@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Random;
 
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import java.awt.FlowLayout;
@@ -39,20 +42,20 @@ public class Ahorcado extends JFrame {
 	private int contadorVidas = 4;
 
 	public Ahorcado() {
-		
+
 		setTitle("Ahorcado");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 592, 460);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		// Crear el menú horizontal 
+		// Crear el menú horizontal
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+
 		JMenu Archivo = new JMenu("Archivo");
 		menuBar.add(Archivo);
-		
+
 		JMenuItem Salir = new JMenuItem("Salir");
 		Salir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -60,36 +63,34 @@ public class Ahorcado extends JFrame {
 			}
 		});
 		Archivo.add(Salir);
-		
+
 		JMenuItem Nuevo_juego = new JMenuItem("Nuevo juego");
 		Archivo.add(Nuevo_juego);
-		
+
 		JMenuItem Acerca_de = new JMenuItem("Acerca de");
 		menuBar.add(Acerca_de);
-		
+
 		JMenuItem Como_jugar = new JMenuItem("Como jugar");
 		menuBar.add(Como_jugar);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
+
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		
-		
-		//---------- CREACIÓN DE COMPONENTES ------------------
+
+		// ---------- CREACIÓN DE COMPONENTES ------------------
 		CreadorComponentes cc = new CreadorComponentes();
-		//Creo teclado y lo inserto
+		// Creo teclado y lo inserto
 		arrayTeclado = cc.getTeclado();
-		//Labels con imágenes ahorcado
+		// Labels con imágenes ahorcado
 		image_labels = cc.getImagenesAhorcado();
-		//Labels con imágenes vidas
+		// Labels con imágenes vidas
 		vidas = cc.getImagenesVidas();
-		//Creo paneles con vidas que tendrán cardLayout para hacerlas desaparecer
+		// Creo paneles con vidas que tendrán cardLayout para hacerlas desaparecer
 		paneles_vidas = cc.getPanelesVidas(vidas);
-		//Creo los labels con espacios vacíos
+		// Creo los labels con espacios vacíos
 		letras = cc.getGuiones();
-		
+
 		/*----------- JPANELS ------------------------*/
 
 		JPanel panel_opciones = new JPanel();
@@ -123,7 +124,7 @@ public class Ahorcado extends JFrame {
 		}
 
 		/*------------------IMAGENES-----------------------------*/
-		//Agrego las imágenes al panel de imágenes
+		// Agrego las imágenes al panel de imágenes
 		for (int i = 0; i < image_labels.length; i++) {
 			panel_imagen.add(image_labels[i]);
 		}
@@ -131,8 +132,9 @@ public class Ahorcado extends JFrame {
 		/*-----------BOTÓN INICIAR JUEGO------------------------------*/
 		JButton comenzarButton = new JButton("Iniciar Juego");
 		panel_opciones.add(comenzarButton);
-		
-		//Agrego los botones que forman el teclado al panel_teclado y les agrego el event listener
+
+		// Agrego los botones que forman el teclado al panel_teclado y les agrego el
+		// event listener
 		for (int i = 0; i < arrayTeclado.length; i++) {
 			panel_teclado.add(arrayTeclado[i]);
 			arrayTeclado[i].addActionListener(new ActionListener() {
@@ -154,29 +156,32 @@ public class Ahorcado extends JFrame {
 		pistaButton.setEnabled(false);
 		pistaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				Object[] options = {"Si","No"};
-				int n = JOptionPane.showOptionDialog(null,
-				"Quieres gastar una vida?",null, JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[1]);
-				
-				if(n==0) {
-					//Intento quitar una imagen de vida cada vez que se presiona el botón
+
+				Object[] options = { "Si", "No" };
+				int n = JOptionPane.showOptionDialog(null, "Quieres gastar una vida?", null, JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+				if (n == 0) {
+					// Intento quitar una imagen de vida cada vez que se presiona el botón
 					if (contadorVidas >= 0) {
 						nextImagen(paneles_vidas[contadorVidas]);
 						contadorVidas--;
-						for(int i=0; i<palabraOculta.length();i++) {
-							if(letras[i].getText()==" _ ") {
+						for (int i = 0; i < palabraOculta.length(); i++) {
+							if (letras[i].getText() == " _ ") {
 								desocultarLetra(palabraOculta.charAt(i) + "");
 								break;
 							}
 						}
-						
+
 					}
+					
+					comprobarPalabra();
+					
 					if (contadorVidas == 0) {
 						// Desactivo el botón de ayuda si el jugador se queda sin vidas
 						pistaButton.setEnabled(false);
 					}
-					
+
 				}
 			}
 		});
@@ -260,8 +265,9 @@ public class Ahorcado extends JFrame {
 		int random = r.nextInt(rango);
 		return random;
 	}
-	
-	//Comprueba si la letra presionada se encuentra en la palabra oculta, si está la desoculta y sino cambia la imagen del ahorcado
+
+	// Comprueba si la letra presionada se encuentra en la palabra oculta, si está
+	// la desoculta y sino cambia la imagen del ahorcado
 	private void eventoTeclado(ActionEvent e, JPanel panel_imagen) {
 		// obtengo el boton presionado y lo desactivo
 		JButton botonPresionado = (JButton) e.getSource();
@@ -272,13 +278,14 @@ public class Ahorcado extends JFrame {
 		// Si acertó, desoculto la palabra
 		if (acerto) {
 			desocultarLetra(letra);
+			comprobarPalabra();
 		} else {
 			if (indexImagenes > 10) {
 				nextImagen(panel_imagen);
 				nextImagen(paneles_vidas[contadorVidas]);
 				contadorVidas--;
 				for (int i = 0; i < arrayTeclado.length; i++) {
-				    arrayTeclado[i].setEnabled(false);
+					arrayTeclado[i].setEnabled(false);
 				}
 				JOptionPane.showMessageDialog(contentPane, "Perdiste campeon! ");
 			} else {
@@ -295,27 +302,45 @@ public class Ahorcado extends JFrame {
 		cl.next(container);
 
 	}
-	private void finalizarJuego(JPanel[] paneles_vidas, JPanel panel_imagenes, JButton comenzarButton, JButton[] arrayTeclado) {
-        //Vuevlo a poner todas las vidas
-        contadorVidas=4;
-        for(int i = 0; i<paneles_vidas.length; i++) {
-            firstImage(paneles_vidas[i]);
-        }
-        //Reinicio el contador de intentos 
-        indexImagenes=1;
-        firstImage(panel_imagenes);
 
-        //Vuelvo a habilitar el botón comenzar juego
-        comenzarButton.setEnabled(true);
+	private void finalizarJuego(JPanel[] paneles_vidas, JPanel panel_imagenes, JButton comenzarButton,
+			JButton[] arrayTeclado) {
+		// Vuevlo a poner todas las vidas
+		contadorVidas = 4;
+		for (int i = 0; i < paneles_vidas.length; i++) {
+			firstImage(paneles_vidas[i]);
+		}
+		// Reinicio el contador de intentos
+		indexImagenes = 1;
+		firstImage(panel_imagenes);
 
-        //Desactivo todas las letras
-        for (int i = 0; i < arrayTeclado.length; i++) {
-            arrayTeclado[i].setEnabled(false);
-        }
-      }
-      private void firstImage (JPanel container) {
-        CardLayout cl = (CardLayout) container.getLayout();
-        cl.first(container);
-      }
-	
+		// Vuelvo a habilitar el botón comenzar juego
+		comenzarButton.setEnabled(true);
+
+		// Desactivo todas las letras
+		for (int i = 0; i < arrayTeclado.length; i++) {
+			arrayTeclado[i].setEnabled(false);
+		}
+	}
+
+	private void firstImage(JPanel container) {
+		CardLayout cl = (CardLayout) container.getLayout();
+		cl.first(container);
+	}
+
+	private void comprobarPalabra() {
+		boolean pc = true;
+
+		for (int i = 0; i < letras.length; i++) {
+			if (letras[i].getText() == " _ ") {
+				pc = false;
+			}
+		}
+		
+		if(pc) {
+			System.out.println("Has ganado");
+		}
+
+	}
+
 }
