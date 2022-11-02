@@ -303,7 +303,9 @@ public class Ahorcado extends JFrame {
 	private void asignarPalabra() {
 		if (contador > 0) {
 			// palabra oculta es un atributo al que se le asigna una palabra random
-			palabraOculta = diccionario.get(getRandom(contador));
+			int r = getRandom(contador);
+			palabraOculta = diccionario.get(r);
+			diccionario.remove(r);
 			contador--;
 			System.out.println(palabraOculta);
 		} else {
