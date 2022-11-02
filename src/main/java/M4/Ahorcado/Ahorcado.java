@@ -45,7 +45,7 @@ public class Ahorcado extends JFrame {
 
 		setTitle("Ahorcado");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 592, 460);
+		setBounds(100, 100, 592, 480);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -70,7 +70,7 @@ public class Ahorcado extends JFrame {
 
 		JPanel panel_opciones = new JPanel();
 		panel_opciones.setBounds(10, 11, 272, 89);
-		panel_opciones.setLayout(new GridLayout(2, 1, 0, 0));
+		panel_opciones.setLayout(new GridLayout(3, 1, 0, 0));
 
 		JPanel panelContainer_vidas = new JPanel();
 		panelContainer_vidas.setBounds(10, 111, 272, 112);
@@ -160,6 +160,32 @@ public class Ahorcado extends JFrame {
 				}
 			}
 		});
+		
+		JButton resolverButton = new JButton("Resolver");
+		resolverButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Me fijo si tiene las vidas suficientes
+				if(contadorVidas>2) {
+					//Desoculto todas las letras
+					for(int i = 0; i<palabraOculta.length(); i++) {
+						if(letras[i].getText() == " _ ") {
+							desocultarLetra(palabraOculta.charAt(i) + "");
+						}
+					}
+					//Le resto 2 vidas
+					nextImagen(paneles_vidas[contadorVidas]);
+					contadorVidas--;
+					nextImagen(paneles_vidas[contadorVidas]);
+					contadorVidas--;
+				} else {
+					//Necesita 3 vidas o más porque sino pierde
+					JOptionPane.showMessageDialog(contentPane, "Necesitas tener mínimamente 3 vidas para poder resolver la palabra");
+				}
+				
+				
+			}
+		});
+		panel_opciones.add(resolverButton);
 		panel_opciones.add(pistaButton);
 		/*---------------EVENTOS BOTONES -----------------------*/
 		comenzarButton.addActionListener(new ActionListener() {
@@ -328,7 +354,7 @@ public class Ahorcado extends JFrame {
 			arrayTeclado[i].setEnabled(false);
 		}
 		for (int i = 0; i < letras.length; i++) {// Reiniciamos los labels de la palabra a guiones
-			letras[i].setText("_");
+			letras[i].setText(" _ ");
 		}
 	}
 
@@ -351,5 +377,4 @@ public class Ahorcado extends JFrame {
 		}
 
 	}
-
 }
