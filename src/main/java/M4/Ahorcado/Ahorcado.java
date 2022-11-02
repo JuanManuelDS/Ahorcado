@@ -125,10 +125,9 @@ public class Ahorcado extends JFrame {
 			panel_palabra.add(letras[i]);
 		}
 		/*----------BOTÓN RESOLVER ----------------------*/
-		JButton resolverButton = new JButton("Resolver");
-		//asignarPalabra(); // Asigno la palabra oculta
-		resolverButton.setEnabled(false);
-		resolverButton.addActionListener(new ActionListener() {
+		JButton pistaButton = new JButton("Pista");
+		pistaButton.setEnabled(false);
+		pistaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				Object[] options = {"Si","No"};
@@ -140,25 +139,28 @@ public class Ahorcado extends JFrame {
 					if (contadorVidas >= 0) {
 						nextImagen(paneles_vidas[contadorVidas]);
 						contadorVidas--;
-						// Un for pasandole cada letra de la palabraOculta a desocultarletra
-						for (int i = 0; i < palabraOculta.length(); i++) {
-							desocultarLetra(Character.toString(palabraOculta.charAt(i)));
+						for(int i=0; i<palabraOculta.length();i++) {
+							if(letras[i].getText()==" _ ") {
+								desocultarLetra(palabraOculta.charAt(i) + "");
+								break;
+							}
 						}
+						
 					}
 					if (contadorVidas == 0) {
 						// Desactivo el botón de ayuda si el jugador se queda sin vidas
-						resolverButton.setEnabled(false);
+						pistaButton.setEnabled(false);
 					}
 					
 				}
 			}
 		});
-		panel_opciones.add(resolverButton);
+		panel_opciones.add(pistaButton);
 		/*---------------EVENTOS BOTONES -----------------------*/
 		comenzarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Activamos el boton para resolver la palabra
-				resolverButton.setEnabled(true);
+				pistaButton.setEnabled(true);
 				// Cuando hago click en "comenzar juego" hago visibles todos los labels
 				for (int i = 0; i < letras.length; i++) {
 					letras[i].setVisible(true);
@@ -218,7 +220,7 @@ public class Ahorcado extends JFrame {
 	private void asignarPalabra() {
 		if (contador > 0) {
 			// palabra oculta es un atributo al que se le asigna una palabra random
-			palabraOculta = diccionario.get(getRandom());
+			palabraOculta = diccionario.get(getRandom(contador));
 			contador--;
 			System.out.println(palabraOculta);
 		} else {
@@ -228,9 +230,9 @@ public class Ahorcado extends JFrame {
 
 	}
 
-	private int getRandom() {
+	private int getRandom(int rango) {
 		Random r = new Random();
-		int random = r.nextInt(contador);
+		int random = r.nextInt(rango);
 		return random;
 	}
 	
