@@ -160,7 +160,9 @@ public class Ahorcado extends JFrame {
 
 					}
 					
-					comprobarPalabra();
+					if(comprobarPalabra()) {
+						siguientePalabra();
+					}
 					
 					if (contadorVidas == 0) {
 						// Desactivo el botón de ayuda si el jugador se queda sin vidas
@@ -193,6 +195,7 @@ public class Ahorcado extends JFrame {
 					contadorVidas--;
 					nextImagen(paneles_vidas[contadorVidas]);
 					contadorVidas--;
+					siguientePalabra();
 				} else {
 					//Necesita 3 vidas o más porque sino pierde
 					JOptionPane.showMessageDialog(contentPane, "Necesitas tener mínimamente 3 vidas para poder resolver la palabra");
@@ -305,7 +308,7 @@ public class Ahorcado extends JFrame {
 			System.out.println(palabraOculta);
 		} else {
 			// Si contador es 0 el juego se termina
-			JOptionPane.showMessageDialog(contentPane, "Juego terminado");
+			JOptionPane.showMessageDialog(contentPane, "Juego terminado, ganaste!");
 		}
 
 	}
@@ -328,7 +331,9 @@ public class Ahorcado extends JFrame {
 		// Si acertó, desoculto la palabra
 		if (acerto) {
 			desocultarLetra(letra);
-			comprobarPalabra();
+			if(comprobarPalabra()) {
+				siguientePalabra();
+			}
 		} else {
 			if (indexImagenes > 10) {
 				nextImagen(panel_imagen);
@@ -382,7 +387,7 @@ public class Ahorcado extends JFrame {
 		cl.first(container);
 	}
 
-	private void comprobarPalabra() {
+	private boolean comprobarPalabra() {
 		boolean pc = true;
 
 		for (int i = 0; i < letras.length; i++) {
@@ -390,10 +395,21 @@ public class Ahorcado extends JFrame {
 				pc = false;
 			}
 		}
-		
-		if(pc) {
-			System.out.println("Has ganado");
-		}
-
+		return pc;
 	}
+	
+	private void siguientePalabra() {
+		for (int i = 0; i < letras.length; i++) {// Reiniciamos los labels de la palabra a guiones
+			letras[i].setText(" _ ");
+		}
+		//reactivo todo el teclado
+		for (int i = 0; i < arrayTeclado.length; i++) {
+			arrayTeclado[i].setEnabled(true);
+		}
+		pisButton.setEnabled(true);
+		resButton.setEnabled(true);
+		asignarPalabra();
+	}
+	
+	
 }
