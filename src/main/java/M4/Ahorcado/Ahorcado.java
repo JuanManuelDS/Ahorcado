@@ -235,7 +235,7 @@ public class Ahorcado extends JFrame {
 		JMenuItem Nuevo_juego = new JMenuItem("Nuevo juego");
 		Nuevo_juego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				finalizarJuego(paneles_vidas, panel_imagen, comenzarButton, arrayTeclado);
+				finalizarJuego(paneles_vidas, panel_imagen, comenzarButton, arrayTeclado, pistaButton, resolverButton);
 			}
 		});
 		Archivo.add(Nuevo_juego);
