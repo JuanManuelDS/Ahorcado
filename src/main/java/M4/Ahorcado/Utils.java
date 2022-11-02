@@ -12,12 +12,14 @@ import javax.swing.JPanel;
 
 public class Utils extends Ahorcado {
 	
+	//Cambia a la siguiente imagen del panel pasado por parámetro
 	public void nextImagen(JPanel container) {
 		CardLayout cl = (CardLayout) container.getLayout();
 		cl.next(container);
 
 	}
 	
+	//Desoculta la letra acertada
 	public void desocultarLetra(String letra, String palabraOculta, JLabel[] letras) {
 		// Comparo y busco en minúsculas el/los index de las coincidencias
 		ArrayList<Integer> indices = new ArrayList<>();
@@ -34,17 +36,20 @@ public class Utils extends Ahorcado {
 
 	}
 
+	//Devuelve un random dentro de un rango
 	public int getRandom(int rango) {
 		Random r = new Random();
 		int random = r.nextInt(rango);
 		return random;
 	}
 	
+	//Devulve la primera imagen del container pasado por parámetro
 	public void firstImage(JPanel container) {
 		CardLayout cl = (CardLayout) container.getLayout();
 		cl.first(container);
 	}
 	
+	//Comprueba si se ha descubierto toda la palabra
 	public boolean comprobarPalabra(JLabel[] letras) {
 		boolean pc = true;
 		// Se recorre la palabra oculta
@@ -57,6 +62,7 @@ public class Utils extends Ahorcado {
 		return pc;
 	}
 	
+	//Comprueba si hay acierto o no
 	public boolean comprobarAcierto(String letra, String palabraOculta) {
 		if (palabraOculta.toLowerCase().contains(letra)) {
 			return true;
@@ -64,6 +70,7 @@ public class Utils extends Ahorcado {
 			return false;
 	}
 	
+	//Rellena el diccionario de palabras ocultas de Ahorcado con palabras de nuestro agrado
 	public ArrayList<String> rellenarDiccionario(String dificultad) {
 		ArrayList<String> diccionario = new ArrayList<>();
 		if (dificultad == "facil") {
