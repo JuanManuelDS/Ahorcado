@@ -29,16 +29,24 @@ import java.awt.FlowLayout;
 public class Ahorcado extends JFrame {
 
 	private JPanel contentPane;
-	private JButton[] arrayTeclado;
-	private ArrayList<String> diccionario = new ArrayList<>();
-	private LectorImagenes lectorImg = new LectorImagenes();
-	private String palabraOculta;
-	private int contador = 10;
+	private JPanel[] paneles_vidas;
+	
 	private JLabel[] letras;
-	private int indexImagenes = 1;
 	private JLabel[] image_labels;
 	private JLabel[] vidas;
-	private JPanel[] paneles_vidas;
+	
+	private JButton[] arrayTeclado;
+	private JButton juegoButton;
+	private JButton resButton;
+	private JButton pisButton;
+	
+	private ArrayList<String> diccionario = new ArrayList<>();
+	private LectorImagenes lectorImg = new LectorImagenes();
+	
+	private String palabraOculta;
+	
+	private int contador = 10;
+	private int indexImagenes = 1;
 	private int contadorVidas = 4;
 
 	public Ahorcado() {
@@ -107,6 +115,7 @@ public class Ahorcado extends JFrame {
 		/*-----------BOTÓN INICIAR JUEGO------------------------------*/
 		JButton comenzarButton = new JButton("Iniciar Juego");
 		panel_opciones.add(comenzarButton);
+		juegoButton = comenzarButton;
 
 		// Agrego los botones que forman el teclado al panel_teclado y les agrego el
 		// event listener
@@ -131,7 +140,8 @@ public class Ahorcado extends JFrame {
 		pistaButton.setEnabled(false);
 		pistaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				// Desactivamos el botón (una vez por palabra)
+				pistaButton.setEnabled(false);
 				Object[] options = { "Si", "No" };
 				int n = JOptionPane.showOptionDialog(null, "Quieres gastar una vida?", null, JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
@@ -161,12 +171,15 @@ public class Ahorcado extends JFrame {
 			}
 		});
 		panel_opciones.add(pistaButton);
+		pisButton = pistaButton;
 		
 		/*----------BOTÓN RESOLVER ----------------------*/
 		JButton resolverButton = new JButton("Resolver");
 		resolverButton.setEnabled(false);
 		resolverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Desactivamos el botón (una vez por partida)
+				resolverButton.setEnabled(false);
 				//Me fijo si tiene las vidas suficientes
 				if(contadorVidas>1) {
 					//Desoculto todas las letras
@@ -189,6 +202,7 @@ public class Ahorcado extends JFrame {
 			}
 		});
 		panel_opciones.add(resolverButton);
+		resButton = resolverButton;
 		
 		/*---------------EVENTOS BOTONES -----------------------*/
 		comenzarButton.addActionListener(new ActionListener() {
