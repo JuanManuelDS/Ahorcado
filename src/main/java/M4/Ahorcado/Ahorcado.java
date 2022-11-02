@@ -241,7 +241,6 @@ public class Ahorcado extends JFrame {
 				nextImagen(panel_imagen);
 				indexImagenes++;
 			}
-
 		}
 	}
 
