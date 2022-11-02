@@ -46,7 +46,27 @@ public class Ahorcado extends JFrame {
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		// Crear el menú horizontal 
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu Archivo = new JMenu("Archivo");
+		menuBar.add(Archivo);
+		
+		JMenuItem Salir = new JMenuItem("Salir");
+		Archivo.add(Salir);
+		
+		JMenuItem Nuevo_juego = new JMenuItem("Nuevo juego");
+		Archivo.add(Nuevo_juego);
+		
+		JMenuItem Acerca_de = new JMenuItem("Acerca de");
+		menuBar.add(Acerca_de);
+		
+		JMenuItem Como_jugar = new JMenuItem("Como jugar");
+		menuBar.add(Como_jugar);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
