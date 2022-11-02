@@ -113,7 +113,7 @@ public class Ahorcado extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//Intento quitar una imagen de vida cada vez que se presiona el botón
 				if (contadorVidas >= 0) {
-					quitarVida(paneles_vidas[contadorVidas]);
+					nextImagen(paneles_vidas[contadorVidas]);
 					contadorVidas--;
 				}
 				if (contadorVidas == 0) {
@@ -221,12 +221,6 @@ public class Ahorcado extends JFrame {
 		return random;
 	}
 	
-	//Método manejador de los paneles que contienen las imágenes de vidas, para quitarlas 
-	private void quitarVida(JPanel container) {
-		CardLayout cl = (CardLayout) container.getLayout();
-		cl.next(container);
-	}
-	
 	//Comprueba si la letra presionada se encuentra en la palabra oculta, si está la desoculta y sino cambia la imagen del ahorcado
 	private void eventoTeclado(ActionEvent e, JPanel panel_imagen) {
 		// obtengo el boton presionado y lo desactivo
@@ -239,7 +233,8 @@ public class Ahorcado extends JFrame {
 		if (acerto) {
 			desocultarLetra(letra);
 		} else {
-			if (indexImagenes > 6) {
+			if (indexImagenes > 10) {
+				nextImagen(panel_imagen);
 				JOptionPane.showMessageDialog(contentPane, "Perdiste campeon! ");
 			} else {
 				// Se pasa a la siguiente imagen en el momento que se falla una letra
@@ -250,33 +245,10 @@ public class Ahorcado extends JFrame {
 		}
 	}
 
-	// Declaramos el jpanel_imagen y usamos el metodo .next() del CardLayout
+	// Declaramos el jpanel_imagen y usamos el metodo .next() del CardLayout.
 	private void nextImagen(JPanel container) {
 		CardLayout cl = (CardLayout) container.getLayout();
-
-		switch (indexImagenes) {
-		case 1:
-			cl.next(container);
-			break;
-		case 2:
-			cl.next(container);
-			break;
-		case 3:
-			cl.next(container);
-			break;
-		case 4:
-			cl.next(container);
-			break;
-		case 5:
-			cl.next(container);
-			break;
-		case 6:
-			cl.next(container);
-			break;
-
-		default:
-			break;
-		}
+		cl.next(container);
 
 	}
 }
