@@ -257,11 +257,26 @@ public class Ahorcado extends JFrame {
 		});
 		Archivo.add(Nuevo_juego);
 
-		JMenuItem Acerca_de = new JMenuItem("Acerca de");
-		menuBar.add(Acerca_de);
+		/*Agregar menú ayuda*/
+		JMenu Ayuda = new JMenu("Ayuda");
+		menuBar.add(Ayuda);
 
 		JMenuItem Como_jugar = new JMenuItem("Como jugar");
-		menuBar.add(Como_jugar);
+		Como_jugar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(contentPane, "Bienvenido al juego del ahorcado!\nElige las letras necesarias para adivinar la palabra secreta\nTienes 5 vidas");
+			}
+		});
+		Ayuda.add(Como_jugar);
+
+		JMenuItem Acerca_de = new JMenuItem("Acerca de");
+		Acerca_de.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(contentPane, "Juego creado por Team 2 ©\nJuan, Jaume y Karim");
+			}
+		});
+		Ayuda.add(Acerca_de);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
