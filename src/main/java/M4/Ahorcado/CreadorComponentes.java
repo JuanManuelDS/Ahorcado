@@ -24,7 +24,7 @@ public class CreadorComponentes{
 	
 	public JLabel[] getImagenesAhorcado() {
 		LectorImagenes li = new LectorImagenes();
-		JLabel[] image_labels = new JLabel[12];
+		JLabel[] image_labels = new JLabel[13];
 		for (int i = 0; i < image_labels.length; i++) {
 			image_labels[i] = li.getImagenAhorcado(i + 1);
 			image_labels[i].setBounds(0, 0, 274, 399);
