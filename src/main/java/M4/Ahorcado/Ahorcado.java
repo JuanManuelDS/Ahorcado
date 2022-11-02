@@ -54,6 +54,11 @@ public class Ahorcado extends JFrame {
 		menuBar.add(Archivo);
 		
 		JMenuItem Salir = new JMenuItem("Salir");
+		Salir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		Archivo.add(Salir);
 		
 		JMenuItem Nuevo_juego = new JMenuItem("Nuevo juego");
