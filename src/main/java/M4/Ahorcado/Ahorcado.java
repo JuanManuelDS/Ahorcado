@@ -49,32 +49,7 @@ public class Ahorcado extends JFrame {
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		// Crear el menú horizontal
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-
-		JMenu Archivo = new JMenu("Archivo");
-		menuBar.add(Archivo);
-
-		JMenuItem Salir = new JMenuItem("Salir");
-		Salir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		Archivo.add(Salir);
-
-		JMenuItem Nuevo_juego = new JMenuItem("Nuevo juego");
-		Archivo.add(Nuevo_juego);
-
-		JMenuItem Acerca_de = new JMenuItem("Acerca de");
-		menuBar.add(Acerca_de);
-
-		JMenuItem Como_jugar = new JMenuItem("Como jugar");
-		menuBar.add(Como_jugar);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
@@ -212,6 +187,37 @@ public class Ahorcado extends JFrame {
 		contentPane.add(panel_teclado);
 		contentPane.add(panel_imagen);
 
+		// Crear el menú horizontal 
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu Archivo = new JMenu("Archivo");
+		menuBar.add(Archivo);
+
+		JMenuItem Salir = new JMenuItem("Salir");
+		Salir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		Archivo.add(Salir);
+
+		JMenuItem Nuevo_juego = new JMenuItem("Nuevo juego");
+		Nuevo_juego.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				finalizarJuego(paneles_vidas, panel_imagen, comenzarButton, arrayTeclado);
+			}
+		});
+		Archivo.add(Nuevo_juego);
+
+		JMenuItem Acerca_de = new JMenuItem("Acerca de");
+		menuBar.add(Acerca_de);
+
+		JMenuItem Como_jugar = new JMenuItem("Como jugar");
+		menuBar.add(Como_jugar);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		setVisible(true);
 	}
 
@@ -320,6 +326,9 @@ public class Ahorcado extends JFrame {
 		// Desactivo todas las letras
 		for (int i = 0; i < arrayTeclado.length; i++) {
 			arrayTeclado[i].setEnabled(false);
+		}
+		for (int i = 0; i < letras.length; i++) {// Reiniciamos los labels de la palabra a guiones
+			letras[i].setText("_");
 		}
 	}
 
