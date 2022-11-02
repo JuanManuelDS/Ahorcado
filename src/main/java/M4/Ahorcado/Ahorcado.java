@@ -126,24 +126,31 @@ public class Ahorcado extends JFrame {
 		}
 		/*----------BOTÓN RESOLVER ----------------------*/
 		JButton resolverButton = new JButton("Resolver");
-		asignarPalabra(); // Asigno la palabra oculta
+		//asignarPalabra(); // Asigno la palabra oculta
 		resolverButton.setEnabled(false);
 		resolverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Intento quitar una imagen de vida cada vez que se presiona el botón
-				if (contadorVidas >= 0) {
-					quitarVida(paneles_vidas[contadorVidas]);
-					contadorVidas--;
-					// Un for pasandole cada letra de la palabraOculta a desocultarletra
-					for (int i = 0; i < palabraOculta.length(); i++) {
-						desocultarLetra(Character.toString(palabraOculta.charAt(i)));
+				
+				Object[] options = {"Si","No"};
+				int n = JOptionPane.showOptionDialog(null,
+				"Quieres gastar una vida?",null, JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[1]);
+				
+				if(n==0) {
+					//Intento quitar una imagen de vida cada vez que se presiona el botón
+					if (contadorVidas >= 0) {
+						nextImagen(paneles_vidas[contadorVidas]);
+						contadorVidas--;
+						// Un for pasandole cada letra de la palabraOculta a desocultarletra
+						for (int i = 0; i < palabraOculta.length(); i++) {
+							desocultarLetra(Character.toString(palabraOculta.charAt(i)));
+						}
 					}
+					if (contadorVidas == 0) {
+						// Desactivo el botón de ayuda si el jugador se queda sin vidas
+						resolverButton.setEnabled(false);
+					}
+					
 				}
-				if (contadorVidas == 0) {
-					// Desactivo el botón de ayuda si el jugador se queda sin vidas
-					resolverButton.setEnabled(false);
-				}
-
 			}
 		});
 		panel_opciones.add(resolverButton);
