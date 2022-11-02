@@ -249,7 +249,7 @@ public class Ahorcado extends JFrame {
 		JMenuItem Nuevo_juego = new JMenuItem("Nuevo juego");
 		Nuevo_juego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				finalizarJuego(panel_imagen, comenzarButton, pistaButton, resolverButton);
+				finalizarJuego(panel_imagen);
 			}
 		});
 		Archivo.add(Nuevo_juego);
@@ -353,7 +353,7 @@ public class Ahorcado extends JFrame {
 
 	}
 
-	private void finalizarJuego(JPanel panel_imagenes, JButton comenzarButton, JButton pistaButton, JButton resolverButton) {
+	private void finalizarJuego(JPanel panel_imagenes) {
 		// Vuevlo a poner todas las vidas
 		contadorVidas = 4;
 		for (int i = 0; i < paneles_vidas.length; i++) {
@@ -364,7 +364,7 @@ public class Ahorcado extends JFrame {
 		firstImage(panel_imagenes);
 
 		// Vuelvo a habilitar el botón comenzar juego
-		comenzarButton.setEnabled(true);
+		juegoButton.setEnabled(true);
 
 		// Desactivo todas las letras
 		for (int i = 0; i < arrayTeclado.length; i++) {
@@ -373,8 +373,8 @@ public class Ahorcado extends JFrame {
 		for (int i = 0; i < letras.length; i++) {// Reiniciamos los labels de la palabra a guiones
 			letras[i].setText(" _ ");
 		}
-		pistaButton.setEnabled(false);
-		resolverButton.setEnabled(false);
+		pisButton.setEnabled(false);
+		resButton.setEnabled(false);
 	}
 
 	private void firstImage(JPanel container) {
