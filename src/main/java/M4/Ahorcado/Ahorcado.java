@@ -126,7 +126,7 @@ public class Ahorcado extends JFrame {
 		for (int i = 0; i < letras.length; i++) {
 			panel_palabra.add(letras[i]);
 		}
-		/*----------BOTÓN RESOLVER ----------------------*/
+		/*----------BOTÓN PISTA ----------------------*/
 		JButton pistaButton = new JButton("Pista");
 		pistaButton.setEnabled(false);
 		pistaButton.addActionListener(new ActionListener() {
@@ -160,12 +160,15 @@ public class Ahorcado extends JFrame {
 				}
 			}
 		});
+		panel_opciones.add(pistaButton);
 		
+		/*----------BOTÓN RESOLVER ----------------------*/
 		JButton resolverButton = new JButton("Resolver");
+		resolverButton.setEnabled(false);
 		resolverButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Me fijo si tiene las vidas suficientes
-				if(contadorVidas>2) {
+				if(contadorVidas>1) {
 					//Desoculto todas las letras
 					for(int i = 0; i<palabraOculta.length(); i++) {
 						if(letras[i].getText() == " _ ") {
@@ -186,12 +189,13 @@ public class Ahorcado extends JFrame {
 			}
 		});
 		panel_opciones.add(resolverButton);
-		panel_opciones.add(pistaButton);
+		
 		/*---------------EVENTOS BOTONES -----------------------*/
 		comenzarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Activamos el boton para resolver la palabra
 				pistaButton.setEnabled(true);
+				resolverButton.setEnabled(true);
 				// Cuando hago click en "comenzar juego" hago visibles todos los labels
 				for (int i = 0; i < letras.length; i++) {
 					letras[i].setVisible(true);
@@ -356,6 +360,8 @@ public class Ahorcado extends JFrame {
 		for (int i = 0; i < letras.length; i++) {// Reiniciamos los labels de la palabra a guiones
 			letras[i].setText(" _ ");
 		}
+		pistaButton.setEnabled(false);
+		resolverButton.setEnabled(false);
 	}
 
 	private void firstImage(JPanel container) {
