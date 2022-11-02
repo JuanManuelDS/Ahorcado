@@ -210,7 +210,7 @@ public class Ahorcado extends JFrame {
 		panel_opciones.add(resolverButton);
 		resButton = resolverButton;
 
-		/*---------------EVENTOS BOTONES -----------------------*/
+		/*---------------BOTÓN COMENZAR -----------------------*/
 		comenzarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Activamos el boton para resolver la palabra
@@ -450,8 +450,11 @@ public class Ahorcado extends JFrame {
 				for (int i = 0; i < arrayTeclado.length; i++) {
 					arrayTeclado[i].setEnabled(true);
 				}
-				// Se reactiva el botón de Pista en caso que fuera usado
-				pisButton.setEnabled(true);
+				// Se reactiva el botón de Pista en caso que fuera usado y tenga más de 1 vida
+				if(contadorVidas>0) {
+					pisButton.setEnabled(true);
+				}
+				
 
 				// Se asigna una nueva palabra
 				asignarPalabra();
@@ -460,7 +463,7 @@ public class Ahorcado extends JFrame {
 				// Se reinicia el contador de imagenes
 				cl.first(panel_imagenes);
 			}
-		}, 1300);
+		}, 1600);
 	}
 
 }
