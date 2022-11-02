@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -30,6 +32,7 @@ public class Ahorcado extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel[] paneles_vidas;
+	private JPanel panel_imagenes;
 	
 	private JLabel[] letras;
 	private JLabel[] image_labels;
@@ -96,9 +99,9 @@ public class Ahorcado extends JFrame {
 		panel_teclado.setBounds(10, 234, 272, 176);
 		panel_teclado.setLayout(new GridLayout(6, 6, 0, 0));
 
-		JPanel panel_imagen = new JPanel();
-		panel_imagen.setBounds(292, 11, 274, 399);
-		panel_imagen.setLayout(new CardLayout());
+		panel_imagenes = new JPanel();
+		panel_imagenes.setBounds(292, 11, 274, 399);
+		panel_imagenes.setLayout(new CardLayout());
 
 		/*------------------JLABELS-----------------------------*/
 		// Agrego los paneles con vidas al panel_vidas
@@ -109,7 +112,7 @@ public class Ahorcado extends JFrame {
 		/*------------------IMAGENES-----------------------------*/
 		// Agrego las imágenes al panel de imágenes
 		for (int i = 0; i < image_labels.length; i++) {
-			panel_imagen.add(image_labels[i]);
+			panel_imagenes.add(image_labels[i]);
 		}
 
 		/*-----------BOTÓN INICIAR JUEGO------------------------------*/
@@ -123,7 +126,7 @@ public class Ahorcado extends JFrame {
 			panel_teclado.add(arrayTeclado[i]);
 			arrayTeclado[i].addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					eventoTeclado(e, panel_imagen);
+					eventoTeclado(e, panel_imagenes);
 				}
 			});
 		}
@@ -232,7 +235,7 @@ public class Ahorcado extends JFrame {
 		contentPane.add(panel_opciones);
 		contentPane.add(panelContainer_vidas);
 		contentPane.add(panel_teclado);
-		contentPane.add(panel_imagen);
+		contentPane.add(panel_imagenes);
 
 		// Crear el menú horizontal 
 		JMenuBar menuBar = new JMenuBar();
@@ -252,7 +255,7 @@ public class Ahorcado extends JFrame {
 		JMenuItem Nuevo_juego = new JMenuItem("Nuevo juego");
 		Nuevo_juego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				finalizarJuego(panel_imagen);
+				finalizarJuego();
 			}
 		});
 		Archivo.add(Nuevo_juego);
@@ -326,6 +329,7 @@ public class Ahorcado extends JFrame {
 		} else {
 			// Si contador es 0 el juego se termina
 			JOptionPane.showMessageDialog(contentPane, "Juego terminado, ganaste!");
+			siguientePalabra();
 		}
 
 	}
@@ -375,7 +379,7 @@ public class Ahorcado extends JFrame {
 
 	}
 
-	private void finalizarJuego(JPanel panel_imagenes) {
+	private void finalizarJuego() {
 		// Vuevlo a poner todas las vidas
 		contadorVidas = 4;
 		for (int i = 0; i < paneles_vidas.length; i++) {
@@ -416,17 +420,28 @@ public class Ahorcado extends JFrame {
 	}
 	
 	private void siguientePalabra() {
-		for (int i = 0; i < letras.length; i++) {// Reiniciamos los labels de la palabra a guiones
-			letras[i].setText(" _ ");
-		}
-		//reactivo todo el teclado
 		for (int i = 0; i < arrayTeclado.length; i++) {
-			arrayTeclado[i].setEnabled(true);
+			arrayTeclado[i].setEnabled(false);
 		}
-		pisButton.setEnabled(true);
-		resButton.setEnabled(true);
-		asignarPalabra();
+		pisButton.setEnabled(false);
+		CardLayout cl = (CardLayout) panel_imagenes.getLayout();
+		cl.last(panel_imagenes);
+		
+		new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+            	for (int i = 0; i < letras.length; i++) {// Reiniciamos los labels de la palabra a guiones
+        			letras[i].setText(" _ ");
+        		}
+        		//reactivo todo el teclado
+        		for (int i = 0; i < arrayTeclado.length; i++) {
+        			arrayTeclado[i].setEnabled(true);
+        		}
+        		pisButton.setEnabled(true);
+        		asignarPalabra();
+        		cl.first(panel_imagenes);
+            }
+        }, 2000);
 	}
-	
 	
 }
