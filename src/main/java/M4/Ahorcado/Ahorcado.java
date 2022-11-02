@@ -172,7 +172,7 @@ public class Ahorcado extends JFrame {
 					//Desoculto todas las letras
 					for(int i = 0; i<palabraOculta.length(); i++) {
 						if(letras[i].getText() == " _ ") {
-							desocultarLetra(palabraOculta.charAt(i) + "");
+							desocultarLetra(Character.toString(palabraOculta.charAt(i)).toLowerCase());
 						}
 					}
 					//Le resto 2 vidas
