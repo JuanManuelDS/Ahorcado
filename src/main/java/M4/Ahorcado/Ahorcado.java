@@ -241,6 +241,11 @@ public class Ahorcado extends JFrame {
 		} else {
 			if (indexImagenes > 10) {
 				nextImagen(panel_imagen);
+				nextImagen(paneles_vidas[contadorVidas]);
+				contadorVidas--;
+				for (int i = 0; i < arrayTeclado.length; i++) {
+				    arrayTeclado[i].setEnabled(false);
+				}
 				JOptionPane.showMessageDialog(contentPane, "Perdiste campeon! ");
 			} else {
 				// Se pasa a la siguiente imagen en el momento que se falla una letra
@@ -256,4 +261,27 @@ public class Ahorcado extends JFrame {
 		cl.next(container);
 
 	}
+	private void finalizarJuego(JPanel[] paneles_vidas, JPanel panel_imagenes, JButton comenzarButton, JButton[] arrayTeclado) {
+        //Vuevlo a poner todas las vidas
+        contadorVidas=4;
+        for(int i = 0; i<paneles_vidas.length; i++) {
+            firstImage(paneles_vidas[i]);
+        }
+        //Reinicio el contador de intentos 
+        indexImagenes=1;
+        firstImage(panel_imagenes);
+
+        //Vuelvo a habilitar el botón comenzar juego
+        comenzarButton.setEnabled(true);
+
+        //Desactivo todas las letras
+        for (int i = 0; i < arrayTeclado.length; i++) {
+            arrayTeclado[i].setEnabled(false);
+        }
+      }
+      private void firstImage (JPanel container) {
+        CardLayout cl = (CardLayout) container.getLayout();
+        cl.first(container);
+      }
+	
 }
