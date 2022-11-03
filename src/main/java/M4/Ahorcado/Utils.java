@@ -10,7 +10,7 @@ import java.util.Random;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Utils extends Ahorcado {
+public class Utils {
 	
 	//Cambia a la siguiente imagen del panel pasado por parámetro
 	public void nextImagen(JPanel container) {

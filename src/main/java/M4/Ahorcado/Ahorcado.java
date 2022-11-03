@@ -267,8 +267,6 @@ public class Ahorcado extends JFrame {
 		});
 		Ayuda.add(Acerca_de);
 
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
 		/*---------------ADICIONES AL CONTENT PANE------------------*/
 		contentPane.add(panel_opciones);
