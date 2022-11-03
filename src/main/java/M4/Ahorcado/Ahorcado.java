@@ -288,6 +288,13 @@ public class Ahorcado extends JFrame {
 		} else {
 			// Si contador es 0 el juego se termina
 			JOptionPane.showMessageDialog(contentPane, "Juego terminado, ganaste!\n Solo requeriste " + intentosGlobales + " intentos!");
+			// Desactivo todas las letras
+			for (int i = 0; i < arrayTeclado.length; i++) {
+				arrayTeclado[i].setEnabled(false);
+			}
+			pisButton.setEnabled(false);
+			resButton.setEnabled(false);
+			
 		}
 
 	}
@@ -334,7 +341,12 @@ public class Ahorcado extends JFrame {
 		}
 		// Reinicio el contador de intentos
 		intentos = 1;
+		intentosGlobales = 0;
+		contadorPalabras = 10;
 		utils.firstImage(panel_imagenes);
+		
+		// Rellenamos el cuestionario
+		diccionario = utils.rellenarDiccionario("facil");
 
 		// Vuelvo a habilitar el botón comenzar juego
 		juegoButton.setEnabled(true);
@@ -381,9 +393,6 @@ public class Ahorcado extends JFrame {
 				// Se reactiva el botón de Pista en caso que fuera usado y tenga más de 1 vida
 				if(contadorVidas>0) {
 					pisButton.setEnabled(true);
-				}
-				if(contadorVidas>1) {
-					resButton.setEnabled(true);
 				}
 
 				// Se asigna una nueva palabra
